@@ -1,14 +1,36 @@
-# Welcome to your CDK TypeScript project
+# EventBridge Scheduler + Step Functions
 
-This is a blank project for CDK development with TypeScript.
+Patrón de arquitectura que utiliza EventBridge Scheduler para ejecutar una Step Function de forma programada.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Arquitectura
 
-## Useful commands
+```
+EventBridge Scheduler (cada 5 min) → IAM Role → Step Function
+```
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+## Componentes
+
+- **EventBridge Scheduler**: Dispara la ejecución cada 5 minutos usando `rate(5 minutes)`
+- **IAM Role**: Rol con permisos `states:StartExecution` para invocar la Step Function
+- **Step Functions**: Máquina de estados definida en `state-machine.asl.json`
+
+## Casos de uso
+
+- Procesamiento batch periódico
+- Tareas de mantenimiento programadas
+- Sincronización de datos
+- Generación de reportes
+
+## Despliegue
+
+```bash
+npm install
+npx cdk deploy
+```
+
+## Modificar frecuencia
+
+Edita `scheduler.ScheduleExpression.rate()` en el stack:
+- `cdk.Duration.minutes(5)` - Cada 5 minutos
+- `cdk.Duration.hours(1)` - Cada hora
+- `cdk.Duration.days(1)` - Diario

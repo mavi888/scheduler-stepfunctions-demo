@@ -1,0 +1,14 @@
+{
+  "Comment": "State machine con estado Pass y output",
+  "StartAt": "PassState",
+  "States": {
+    "PassState": {
+      "Type": "Pass",
+      "Result": {
+        "message": "Procesamiento completado",
+        "status": "success"
+      },
+      "End": true
+    }
+  }
+}
